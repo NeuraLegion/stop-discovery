@@ -45,19 +45,23 @@ module.exports = {
       'error',
       {
         default: [
+          // Static fields
           'public-static-field',
           'protected-static-field',
           'private-static-field',
+          
+          // Instance fields
           'public-instance-field',
           'protected-instance-field',
           'private-instance-field',
+          
+          // Constructors
           'constructor',
+          
+          // Methods
           'public-static-method',
           'protected-static-method',
           'private-static-method',
-          'public-abstract-method',
-          'protected-abstract-method',
-          'private-abstract-method',
           'public-instance-method',
           'protected-instance-method',
           'private-instance-method'
@@ -116,7 +120,6 @@ module.exports = {
     ],
     '@typescript-eslint/default-param-last': ['error'],
     '@typescript-eslint/consistent-type-assertions': 'error',
-    '@typescript-eslint/no-duplicate-imports': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/unified-signatures': 'error',
     '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
@@ -190,6 +193,7 @@ module.exports = {
     'no-restricted-syntax': ['error', 'ForInStatement'],
     'no-throw-literal': 'error',
     'no-undef-init': 'error',
+    "no-duplicate-imports": "error",
     'object-shorthand': 'error',
     'one-var': ['error', 'never'],
     'padding-line-between-statements': [
