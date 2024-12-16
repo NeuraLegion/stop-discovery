@@ -1,4 +1,4 @@
-# Stop a Bright Scan
+# Stop a Bright Discovery
 
 This action stops a Bright discovery.
 
@@ -32,10 +32,11 @@ Stop chasing ghosts and wasting time. Bright doesn’t return false positives, s
 Bright tests for all common vulnerabilities, such as SQL injection, CSRF, XSS, and XXE -- as well as uncommon vulnerabilities, such as business logic vulnerabilities.
 
 More information is available on Bright’s:
-* [Website](https://www.brightsec.com/)
-* [Knowledge base](https://docs.brightsec.com/docs/quickstart)
-* [YouTube channel](https://www.youtube.com/channel/UCoIC0T1pmozq3eKLsUR2uUw)
-* [GitHub Actions](https://github.com/marketplace?query=neuralegion+)
+
+- [Website](https://www.brightsec.com/)
+- [Knowledge base](https://docs.brightsec.com/docs/quickstart)
+- [YouTube channel](https://www.youtube.com/channel/UCoIC0T1pmozq3eKLsUR2uUw)
+- [GitHub Actions](https://github.com/marketplace?query=neuralegion+)
 
 # Inputs
 
@@ -45,48 +46,54 @@ More information is available on Bright’s:
 
 _Example:_ `api_token: ${{ secrets.BRIGHTSEC_TOKEN }}`
 
-### `scan`
+### `discovery`
 
 **Required**. Discovery ID to stop.
 
 _Example:_ `discovery: ${{ steps.start.outputs.id }}`
+
+### `project`
+
+**Required**. Project ID for the Discovery.
+
+_Example:_ `project: gBAh2n9BD9ps7FVQXbLWXv`
 
 ## Usage Example
 
 ### Stop a previously started discovery
 
 ```yml
-start_and_stop_scan:
+start_and_stop_discovery:
   runs-on: ubuntu-latest
   name: A job to run a Bright discovery
   steps:
-  - name: 🏁 Start Bright Discovery
-    id: start
-    uses: NeuraLegion/run-scan@master
-    with:
-      api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
-      name: GitHub scan ${{ github.sha }}
-      discovery_types: |
-        [ "crawler", "archive" ]
-      crawler_urls: |
-        [ "https://juice-shop.herokuapp.com" ]
-      file_id: LiYknMYSdbSZbqgMaC9Sj
-      hosts_filter: |
-        [ ]
-  - name: Get the output discovery url
-    run: echo "The discovery was started on ${{ steps.start.outputs.url }}"
-  - name: ⏳ Wait for discovery to finish
-    id: wait
-    uses: NeuraLegion/wait-for-discovery@master
-    with:
-      api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
-      discovery: ${{ steps.start.outputs.id }}
-      timeout: 100
-  - name: 🛑 Stop the discovery
-    if: ${{ always() }}
-    id: stop
-    uses: NeuraLegion/stop-discovery@master
-    with:
-      api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
-      discovery: ${{ steps.start.outputs.id }}
+    - name: 🏁 Start Bright Discovery
+      id: start
+      uses: NeuraLegion/run-discovery@master
+      with:
+        api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
+        name: GitHub scan ${{ github.sha }}
+        discovery_types: |
+          [ "crawler", "archive" ]
+        crawler_urls: |
+          [ "https://juice-shop.herokuapp.com" ]
+        file_id: LiYknMYSdbSZbqgMaC9Sj
+        hosts_filter: |
+          [ ]
+    - name: Get the output discovery url
+      run: echo "The discovery was started on ${{ steps.start.outputs.url }}"
+    - name: ⏳ Wait for discovery to finish
+      id: wait
+      uses: NeuraLegion/wait-for-discovery@master
+      with:
+        api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
+        discovery: ${{ steps.start.outputs.id }}
+        timeout: 100
+    - name: 🛑 Stop the discovery
+      if: ${{ always() }}
+      id: stop
+      uses: NeuraLegion/stop-discovery@master
+      with:
+        api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
+        discovery: ${{ steps.start.outputs.id }}
 ```

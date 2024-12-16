@@ -12,6 +12,7 @@ inputs:
     required: true
   project:
     description: 'ID of the project that the discovery belongs to'
+    required: true
   hostname:
     description: 'Hostname. Default is app.brightsec.com'
     required: false
