@@ -33,8 +33,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(7484));
 const rm = __importStar(__nccwpck_require__(3338));
 const apiToken = core.getInput('api_token');
-const discoveryId = core.getInput('discovery');
-const projectId = core.getInput('project');
+const discoveryId = core.getInput('discovery_id');
+const projectId = core.getInput('project_id');
 const hostname = core.getInput('hostname');
 const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
 const restc = new rm.RestClient('GitHub Actions', baseUrl);
@@ -46,7 +46,7 @@ async function stopDiscovery(uuid) {
         const payload = {
             action: 'stop'
         };
-        const restRes = await restc.update(`api/v2/projecs/${projectId}/discoveries/${uuid}`, payload, options);
+        const restRes = await restc.update(`api/v2/projects/${projectId}/discoveries/${uuid}`, payload, options);
         core.info(`Was succesfully stopped. Code ${restRes.statusCode}.`);
     }
     catch (err) {
