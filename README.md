@@ -46,17 +46,17 @@ More information is available on Bright’s:
 
 _Example:_ `api_token: ${{ secrets.BRIGHTSEC_TOKEN }}`
 
-### `discovery`
+### `discovery_id`
 
 **Required**. Discovery ID to stop.
 
 _Example:_ `discovery: ${{ steps.start.outputs.id }}`
 
-### `project`
+### `project_id`
 
 **Required**. Project ID for the Discovery.
 
-_Example:_ `project: gBAh2n9BD9ps7FVQXbLWXv`
+_Example:_ `project_id: ${{ vars.PROJECT_ID }}`
 
 ## Usage Example
 
@@ -73,6 +73,7 @@ start_and_stop_discovery:
       with:
         api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
         name: GitHub scan ${{ github.sha }}
+        project_id: ${{ vars.PROJECT_ID }}
         discovery_types: |
           [ "crawler", "archive" ]
         crawler_urls: |
@@ -95,5 +96,6 @@ start_and_stop_discovery:
       uses: NeuraLegion/stop-discovery@master
       with:
         api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
-        discovery: ${{ steps.start.outputs.id }}
+        discovery_id: ${{ steps.start.outputs.id }}
+        project_id: ${{ vars.PROJECT_ID }}
 ```

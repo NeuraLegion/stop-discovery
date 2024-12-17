@@ -2,8 +2,8 @@ import * as core from '@actions/core';
 import * as rm from 'typed-rest-client/RestClient';
 
 const apiToken = core.getInput('api_token');
-const discoveryId = core.getInput('discovery');
-const projectId = core.getInput('project');
+const discoveryId = core.getInput('discovery_id');
+const projectId = core.getInput('project_id');
 const hostname = core.getInput('hostname');
 
 const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
@@ -18,7 +18,7 @@ async function stopDiscovery(uuid: string) {
       action: 'stop'
     };
     const restRes = await restc.update(
-      `api/v2/projecs/${projectId}/discoveries/${uuid}`,
+      `api/v2/projects/${projectId}/discoveries/${uuid}`,
       payload,
       options
     );
