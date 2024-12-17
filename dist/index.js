@@ -46,7 +46,7 @@ async function stopDiscovery(uuid) {
         const payload = {
             action: 'stop'
         };
-        const restRes = await restc.update(`api/v2/projects/${projectId}/discoveries/${uuid}`, payload, options);
+        const restRes = await restc.update(`api/v2/projects/${projectId}/discoveries/${uuid}/lifecycle`, payload, options);
         core.info(`Was succesfully stopped. Code ${restRes.statusCode}.`);
     }
     catch (err) {
