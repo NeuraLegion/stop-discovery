@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import * as rm from 'typed-rest-client/RestClient';
+import { HttpClient } from '@actions/http-client';
 
 const apiToken = core.getInput('api_token');
 const discoveryId = core.getInput('discovery_id');
@@ -7,22 +7,21 @@ const projectId = core.getInput('project_id');
 const hostname = core.getInput('hostname');
 
 const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
-const restc = new rm.RestClient('GitHub Actions', baseUrl);
+
+const client = new HttpClient('GitHub Actions', [], {
+  allowRetries: true,
+  maxRetries: 5,
+  headers: { authorization: `Api-Key ${apiToken}` }
+});
 
 async function stopDiscovery(uuid: string) {
   try {
-    const options = {
-      additionalHeaders: { Authorization: `Api-Key ${apiToken}` }
-    };
-    const payload = {
-      action: 'stop'
-    };
-    const restRes = await restc.update(
-      `api/v2/projects/${projectId}/discoveries/${uuid}/lifecycle`,
-      payload,
-      options
+    const response = await client.putJson(
+      `${baseUrl}/api/v2/projects/${projectId}/discoveries/${uuid}/lifecycle`,
+      { action: 'stop' }
     );
-    core.info(`Was succesfully stopped. Code ${restRes.statusCode}.`);
+
+    core.info(`Was successfully stopped. Code ${response.statusCode}.`);
   } catch (err: any) {
     core.setFailed(`Failed (${err.statusCode}) ${err.message}`);
   }
