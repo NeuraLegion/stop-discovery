@@ -18,7 +18,7 @@ async function stopDiscovery(uuid: string) {
       action: 'stop'
     };
     const restRes = await restc.update(
-      `api/v2/projects/${projectId}/discoveries/${uuid}`,
+      `api/v2/projects/${projectId}/discoveries/${uuid}/lifecycle`,
       payload,
       options
     );
