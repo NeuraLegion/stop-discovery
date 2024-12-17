@@ -7,7 +7,7 @@ jobs:
   release:
     name: Build GitHub Action
     runs-on: ubuntu-latest
-    container: node:16
+    container: node:20
     steps:
       - name: Install packages
         run: apt-get update && apt-get install -y rsync git
