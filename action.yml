@@ -1,5 +1,5 @@
 name: 'Bright Stop Discovery'
-description: 'Stops Bright Discovery'
+description: 'Stops a Bright Discovery'
 branding:
   icon: stop-circle
   color: blue
